@@ -13,7 +13,8 @@ set(PYBIND11_CPP_STANDARD -std=c++20)
 # -------------------- 
 # Resolve dependencies
 
-find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
+find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module NumPy)
+#find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
 
 include(FetchContent)
 
