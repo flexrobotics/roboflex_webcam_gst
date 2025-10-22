@@ -13,7 +13,7 @@ set(PYBIND11_CPP_STANDARD -std=c++20)
 # -------------------- 
 # Resolve dependencies
 
-#find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
+find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
 
 include(FetchContent)
 
@@ -24,45 +24,28 @@ FetchContent_Declare(pybind11
 )
 FetchContent_MakeAvailable(pybind11)
 
+# download and build xtensor_python
+FetchContent_Declare(xtensor-python
+    GIT_REPOSITORY https://github.com/xtensor-stack/xtensor-python.git
+    GIT_TAG        0.29.0
+)
+FetchContent_MakeAvailable(xtensor-python)
+
 
 # -------------------- 
 # Define the library
 
-# Use the pybind11 provided function to create a module.
 pybind11_add_module(roboflex_webcam_gst_ext
     pybindings.cpp
 )
 
-# Link against your the library and any necessary dependencies
 target_link_libraries(roboflex_webcam_gst_ext PUBLIC 
     roboflex_webcam_gst
+    xtensor-python
 )
 
-# You can set properties for the target if necessary.
 set_target_properties(roboflex_webcam_gst_ext PROPERTIES
     POSITION_INDEPENDENT_CODE ON
-
-    # We want to use an explicit RPATH, so we can
-    # find libuvc.so where we installed it.
     BUILD_WITH_INSTALL_RPATH TRUE
     INSTALL_RPATH "$ORIGIN"
-    # BUILD_WITH_INSTALL_RPATH FALSE
-    # INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib"
-    # INSTALL_RPATH_USE_LINK_PATH TRUE
 )
-
-
-# -------------------- 
-# install
-
-# Install the generated Python module to the desired destination.
-# This installs the compiled module.
-# install(TARGETS roboflex_webcam_uvc_ext
-#     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages/roboflex/webcam_uvc
-# )
-
-# # Install the auxiliary Python files
-# install(FILES
-#     __init__.py
-#     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/python3/dist-packages/roboflex/webcam_uvc
-# )

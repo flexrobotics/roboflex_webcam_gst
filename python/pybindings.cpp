@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #include <iostream>
 #include <pybind11/pybind11.h>
 #include <pybind11/functional.h>
@@ -6,6 +7,7 @@
 #include <pybind11/eigen.h>
 #include <pybind11/stl.h>
 #include <pybind11/stl_bind.h>
+#include <xtensor-python/pytensor.hpp>
 #include "roboflex_core/core.h"
 #include "roboflex_webcam_gst/webcam_gst.h"
 
@@ -17,6 +19,7 @@ using namespace roboflex::webcam_gst;
 
 
 PYBIND11_MODULE(roboflex_webcam_gst_ext, m) {
+    xt::import_numpy();
     m.doc() = "roboflex_webcam_gst_ext";
 
     m.def("get_device_list", &get_device_list);
@@ -42,7 +45,9 @@ PYBIND11_MODULE(roboflex_webcam_gst_ext, m) {
         .def_property_readonly("t1", &WebcamDataRaw::get_t1)
         .def_property_readonly("width", &WebcamDataRaw::get_width)
         .def_property_readonly("height", &WebcamDataRaw::get_height)
-        .def_property_readonly("data", &WebcamDataRaw::get_data)
+        .def_property_readonly("data", [](const std::shared_ptr<WebcamDataRaw>& self) {
+            return py::bytes(reinterpret_cast<const char*>(self->get_data()), self->get_data_size_bytes());
+        })
         .def_property_readonly("data_size_bytes", &WebcamDataRaw::get_data_size_bytes)
         .def_property_readonly("pixel_format", &WebcamDataRaw::get_pixel_format)
         .def_property_readonly("sequence", &WebcamDataRaw::get_sequence)
@@ -57,7 +62,9 @@ PYBIND11_MODULE(roboflex_webcam_gst_ext, m) {
             py::arg("other"))
         .def_property_readonly("t0", &WebcamDataRGB::get_t0)
         .def_property_readonly("t1", &WebcamDataRGB::get_t1)
-        .def_property_readonly("rgb", &WebcamDataRGB::get_rgb)
+        .def_property_readonly("rgb", [](const std::shared_ptr<WebcamDataRGB>& self) {
+            return self->get_rgb();
+        })
         .def_property_readonly("pixel_format", &WebcamDataRGB::get_pixel_format)
         .def_property_readonly("sequence", &WebcamDataRGB::get_sequence)
         .def_property_readonly("capture_time", &WebcamDataRGB::get_capture_time)

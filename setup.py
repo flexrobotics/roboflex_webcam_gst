@@ -50,7 +50,7 @@ long_description = (Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='roboflex.webcam_gst',
-    version='0.1.0',
+    version='0.1.1',
     description='Roboflex module that streams webcams via GStreamer',
     author='Colin Prepscius',
     author_email='colinprepscius@gmail.com',
