@@ -101,4 +101,6 @@ install(DIRECTORY include/roboflex_webcam_gst
 # --------------------
 # build python bindings
 
-add_subdirectory(python)
+if(BUILD_ROBOFLEX_PYTHON_EXT)
+    add_subdirectory(python)
+endif()
