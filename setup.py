@@ -29,7 +29,7 @@ class CMakeBuild(build_ext):
             extdir += os.path.sep
 
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
-                      '-DPYTHON_EXECUTABLE=' + sys.executable]
+                      '-DPython_EXECUTABLE=' + sys.executable]
 
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg]
@@ -50,7 +50,7 @@ long_description = (Path(__file__).parent / "README.md").read_text()
 
 setup(
     name='roboflex.webcam_gst',
-    version='0.1.1',
+    version='0.1.2',
     description='Roboflex module that streams webcams via GStreamer',
     author='Colin Prepscius',
     author_email='colinprepscius@gmail.com',
@@ -71,7 +71,7 @@ setup(
     keywords = ["webcam", "gstreamer", "robotics", "middleware", "flexbuffers", "python", "c++", "c++20"],
     license = "MIT",
     python_requires='>=3.6',
-    install_requires=['numpy', 'roboflex'],
+    install_requires=['numpy>=2.0', 'roboflex'],
     ext_modules=[CMakeExtension('roboflex/webcam_gst/roboflex_webcam_gst_ext')],
     cmdclass=dict(build_ext=CMakeBuild),
     py_modules=['__init__'],
