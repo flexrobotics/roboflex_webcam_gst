@@ -101,6 +101,7 @@ install(DIRECTORY include/roboflex_webcam_gst
 # --------------------
 # build python bindings
 
-if(BUILD_ROBOFLEX_PYTHON_EXT)
+option(BUILD_WEBCAM_GST_PYTHON_EXT "Build the webcam_gst Python extension" ON)
+if(BUILD_WEBCAM_GST_PYTHON_EXT)
     add_subdirectory(python)
 endif()

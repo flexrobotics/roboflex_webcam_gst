@@ -13,15 +13,14 @@ set(PYBIND11_CPP_STANDARD -std=c++20)
 # -------------------- 
 # Resolve dependencies
 
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development.Module NumPy)
-#find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
+find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
 
 include(FetchContent)
 
 # download and build pybind11
 FetchContent_Declare(pybind11
     GIT_REPOSITORY https://github.com/pybind/pybind11.git
-    GIT_TAG        v2.11.1
+    GIT_TAG        v2.13.6
 )
 FetchContent_MakeAvailable(pybind11)
 
